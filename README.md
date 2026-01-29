@@ -65,7 +65,32 @@ Composant pour la gestion centralisée des erreurs.
   - `errors.spec.ts` - Tests unitaires
   - `errors-module.ts` - Déclarations du module
 
-## Routes 🛣️
+### Composants Partagés (Shared) 🔄
+
+**Répertoire:** `./src/app/site/shared/`
+
+Les composants et modules partagés sont utilisés à travers l'ensemble de l'application.
+
+#### NavmenuComponent (`shared/navmenu/navmenu.ts`)
+
+Composant de navigation réutilisable affichant le menu principal du site.
+
+- **Fichiers associés:**
+  - `navmenu.html` - Template HTML
+  - `navmenu.css` - Styles spécifiques
+  - `navmenu.spec.ts` - Tests unitaires
+- **Imports:**
+  - `RouterLink` - Pour la navigation entre les routes
+- **Utilisation:** Intégré dans le composant root (`app.ts`) pour afficher la navigation globale
+
+#### SharedModule (`shared/shared-module.ts`)
+
+Module partagé centralisant les déclarations et imports communs à l'ensemble de l'application.
+
+- **Rôle:** Export des composants partagés et dépendances communes
+- **Contient:** CommonModule pour les directives standard Angular (*ngIf, *ngFor, etc.)
+
+## Endpoints et Routes disponibles 🛣️
 
 **Répertoires:** 
 - `./src/app/app.routes.ts` - Routes client
@@ -79,18 +104,6 @@ Les routes sont organisées par domaine fonctionnel et font appel aux composants
 | `/films` | FilmsComponent | `site/films/` | Galerie et détails des films |
 | `/about` | AboutComponent | `site/about/` | Informations sur le site |
 | `/errors` | ErrorsComponent | `site/errors/` | Gestion centralisée des erreurs |
-
-## Services (Business Logic) 💼
-
-**Répertoire:** À créer selon les besoins (`./src/app/services/`)
-
-Les services contiennent la logique métier et interagissent avec les API ou l'état de l'application. Ils sont injectés dans les composants via le système d'injection de dépendances d'Angular.
-
-| Service | Fichier | Fonctions principales | Dépendances |
-|---------|---------|----------------------|-------------|
-| **FilmService** | `film.service.ts` (à créer) | `getAllFilms()`, `getFilmById()`, `createFilm()`, `updateFilm()`, `deleteFilm()` | HttpClient |
-| **ConfigService** | `config.service.ts` (à créer) | `getAppConfig()`, `getSiteInfo()` | HttpClient |
-| **ErrorService** | `error.service.ts` (à créer) | `logError()`, `getErrors()`, `clearErrors()` | - |
 
 ## Structure du projet 📁
 
@@ -139,12 +152,19 @@ tpbinding/
 │           │   ├── about.css
 │           │   ├── about.spec.ts
 │           │   └── about-module.ts
-│           └── errors/
-│               ├── errors.ts
-│               ├── errors.html
-│               ├── errors.css
-│               ├── errors.spec.ts
-│               └── errors-module.ts
+│           ├── errors/
+│           │   ├── errors.ts
+│           │   ├── errors.html
+│           │   ├── errors.css
+│           │   ├── errors.spec.ts
+│           │   └── errors-module.ts
+│           └── shared/
+│               ├── shared-module.ts
+│               └── navmenu/
+│                   ├── navmenu.ts
+│                   ├── navmenu.html
+│                   ├── navmenu.css
+│                   └── navmenu.spec.ts
 ├── cypress/
 │   ├── fixtures/
 │   ├── support/
@@ -201,13 +221,6 @@ L'application sera accessible sur `http://localhost:4000/`
 | `ng generate component <name>` | Génère un nouveau composant standalone |
 | `ng generate service <name>` | Génère un nouveau service |
 
-## 📍 Endpoints et Routes disponibles
-
-Une fois démarrée, l'application est accessible sur `http://localhost:4200/`:
-- `/` - Page d'accueil
-- `/films` - Galerie des films
-- `/about` - Informations sur le site
-- `/errors` - Gestion des erreurs
 
 ## Tests 🧪
 
