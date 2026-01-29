@@ -4,10 +4,10 @@
  */
 
 import { Routes } from '@angular/router';
-import {Home} from './site/home/home';
-import {About} from './site/about/about';
-import {Films} from './site/films/films';
-import {Errors} from './site/errors/errors';
+import { Home } from './site/home/home';
+import { About } from './site/about/about';
+import { Films } from './site/films/films';
+import { Errors } from './site/errors/errors';
 
 
 /**
