@@ -69,6 +69,22 @@ Composant pour l'affichage et la gestion de la liste des films.
   - `films.spec.ts` - Tests unitaires
   - `films-module.ts` - Déclarations du module
 
+##### SearchformComponent (`films/searchform/searchform.ts`)
+
+Sous-composant de FilmsComponent pour la recherche et le filtrage des films.
+
+- **Fichiers associés:**
+  - `searchform.html` - Template HTML
+  - `searchform.css` - Styles spécifiques
+  - `searchform.spec.ts` - Tests unitaires
+- **Imports:**
+  - `ReactiveFormsModule` - Pour la gestion des formulaires réactifs
+  - `FormBuilder`, `FormGroup`, `FormControl`, `Validators` - Pour construire le formulaire de recherche
+- **Fonctionnalités:**
+  - Formulaire réactif avec champs `title` (texte libre) et `year` (année par défaut 2018)
+  - Méthode `startSearch()` pour lancer la recherche avec les paramètres du formulaire
+  - Intégration avec le composant parent FilmsComponent pour filtrer la liste des films
+
 #### AboutComponent (`about/about.ts`)
 
 Composant pour les informations "À propos" du site.
