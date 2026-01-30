@@ -19,6 +19,30 @@
 
 ## Détails des fonctionnalités implémentées 🚧
 
+### Composants Partagés (Shared) 🔄
+
+**Répertoire:** `./src/app/site/shared/`
+
+Les composants et modules partagés sont utilisés à travers l'ensemble de l'application.
+
+#### NavmenuComponent (`shared/navmenu/navmenu.ts`)
+
+Composant de navigation réutilisable affichant le menu principal du site.
+
+- **Fichiers associés:**
+  - `navmenu.html` - Template HTML
+  - `navmenu.css` - Styles spécifiques
+  - `navmenu.spec.ts` - Tests unitaires
+- **Imports:**
+  - `RouterLink` - Pour la navigation entre les routes
+- **Utilisation:** Intégré dans le composant root (`app.ts`) pour afficher la navigation globale
+
+#### SharedModule (`shared/shared-module.ts`)
+
+Module partagé centralisant les déclarations et imports communs à l'ensemble de l'application.
+
+- **Rôle:** Export des composants partagés et dépendances communes
+  
 ### Composants Standalone 🧭
 
 **Répertoire:** `./src/app/site/`
@@ -64,31 +88,6 @@ Composant pour la gestion centralisée des erreurs.
   - `errors.css` - Styles spécifiques
   - `errors.spec.ts` - Tests unitaires
   - `errors-module.ts` - Déclarations du module
-
-### Composants Partagés (Shared) 🔄
-
-**Répertoire:** `./src/app/site/shared/`
-
-Les composants et modules partagés sont utilisés à travers l'ensemble de l'application.
-
-#### NavmenuComponent (`shared/navmenu/navmenu.ts`)
-
-Composant de navigation réutilisable affichant le menu principal du site.
-
-- **Fichiers associés:**
-  - `navmenu.html` - Template HTML
-  - `navmenu.css` - Styles spécifiques
-  - `navmenu.spec.ts` - Tests unitaires
-- **Imports:**
-  - `RouterLink` - Pour la navigation entre les routes
-- **Utilisation:** Intégré dans le composant root (`app.ts`) pour afficher la navigation globale
-
-#### SharedModule (`shared/shared-module.ts`)
-
-Module partagé centralisant les déclarations et imports communs à l'ensemble de l'application.
-
-- **Rôle:** Export des composants partagés et dépendances communes
-- **Contient:** CommonModule pour les directives standard Angular (*ngIf, *ngFor, etc.)
 
 ## Endpoints et Routes disponibles 🛣️
 
