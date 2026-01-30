@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Searchmovie } from '../services/searchmovie';
 
 /**
  * On a besoin d'importer ReactiveFormsModule pour lier le formulaire html au FormGroup placé dessus
  */
-import {FormControl, FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-searchform',
@@ -22,25 +23,50 @@ export class Searchform implements OnInit  {
    *
    * FormControl va permettre de connecter les valeurs html et ts
    */
-  searchForm : FormGroup = new FormGroup({
-  });
+  searchForm : FormGroup = new FormGroup({});
+  titleControl: FormControl = new FormControl({});
+  yearControl: FormControl = new FormControl({});
 
-  constructor(private formBuilder: FormBuilder) {}
+  /** On instancie tout ce que l'on pourrais avoir besoin */
+  constructor(private formBuilder: FormBuilder,
+    private searchMovie: Searchmovie) {}
+
+  /**
+   * utilisation des Regex pour le contrôle
+   * ^ commence par
+   * $ termine par
+   * + un ou plusieurs
+   * * séro ou pliseurs
+   * () groupe de caractère
+   * [] caractère seul
+   * \s espace
+   * \d chiffre entre 0-9
+   */
+  titlePattern = '^[a-zA-Z\d]+[a-zA-Z\s,.\d]*';
+  yearPattern = '^(19|20)\d{2}$';
 
   /**
    * On intialise
    */
   ngOnInit() {
+
+    /** Valide le formulaire ou non et donc bloque la rquête si nécessaire */
+    this.titleControl = this.formBuilder.control('', [Validators.required, Validators.maxLength(30), Validators.pattern(this.titlePattern)])
+    this.yearControl = this.formBuilder.control('2018', [Validators.min(1900), Validators.max(2025), Validators.pattern(this.yearPattern)])
     this.searchForm = this.formBuilder.group({
-      title: [''],
-      year: [2018]
+      title: this.titleControl,
+      year: this.yearControl
     })
   }
 
   startSearch(): void {
-    this.searchForm.value.title;
-    this.searchForm.value.year;
+    let action = (data: Object) => {
+      console.log(data); // fonction qui deviendra un callback
+    }
 
-    console.log("Recherche lancé")
+    // A ce moment précis action deviens un callback
+    // On Souaite récupérer la saisi utilisateur
+
+    this.searchMovie.search(action, this.searchForm.value.title, this.searchForm.value.year);
   }
 }
