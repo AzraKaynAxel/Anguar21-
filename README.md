@@ -42,7 +42,7 @@ Composant de navigation réutilisable affichant le menu principal du site.
 Module partagé centralisant les déclarations et imports communs à l'ensemble de l'application.
 
 - **Rôle:** Export des composants partagés et dépendances communes
-  
+
 ### Composants Standalone 🧭
 
 **Répertoire:** `./src/app/site/`
@@ -61,17 +61,21 @@ Composant racine de la page d'accueil du site.
 
 #### FilmsComponent (`films/films.ts`)
 
-Composant pour l'affichage et la gestion de la liste des films.
+Composant conteneur pour l'affichage et la gestion de la liste des films.
 
 - **Fichiers associés:**
   - `films.html` - Template HTML
   - `films.css` - Styles spécifiques
   - `films.spec.ts` - Tests unitaires
   - `films-module.ts` - Déclarations du module
+- **Imports:**
+  - `Searchform` - Composant enfant pour la recherche
+  - `FormsModule`, `ReactiveFormsModule` - Pour la gestion des formulaires
+- **Rôle:** Conteneur principal qui englobe le formulaire de recherche et affiche les résultats
 
 ##### SearchformComponent (`films/searchform/searchform.ts`)
 
-Sous-composant de FilmsComponent pour la recherche et le filtrage des films.
+Sous-composant de FilmsComponent pour la recherche et le filtrage des films via l'API OMDb.
 
 - **Fichiers associés:**
   - `searchform.html` - Template HTML
@@ -80,10 +84,46 @@ Sous-composant de FilmsComponent pour la recherche et le filtrage des films.
 - **Imports:**
   - `ReactiveFormsModule` - Pour la gestion des formulaires réactifs
   - `FormBuilder`, `FormGroup`, `FormControl`, `Validators` - Pour construire le formulaire de recherche
+  - `FormValidators` - Validateurs personnalisés
+  - `Searchmovie` - Service pour les appels API
 - **Fonctionnalités:**
-  - Formulaire réactif avec champs `title` (texte libre) et `year` (année par défaut 2018)
+  - Formulaire réactif avec deux champs:
+    - `title` - Titre du film (texte libre, max 30 caractères, pattern alphanumérique)
+    - `year` - Année (par défaut 2018, format YYYY, entre 1900 et 2024)
+  - Validations des entrées utilisateur via regex patterns
   - Méthode `startSearch()` pour lancer la recherche avec les paramètres du formulaire
-  - Intégration avec le composant parent FilmsComponent pour filtrer la liste des films
+  - Communication avec le service `Searchmovie` via callback
+
+##### FormValidators (`films/form-validators.ts`)
+
+Classe utilitaire contenant les validateurs personnalisés pour les formulaires du module films.
+
+- **Validateurs disponibles:**
+  - `integerBetween(min, max)` - Valide qu'une valeur est un entier entre deux limites (ex: années 1900-2024)
+- **Utilisation:** Appliqués au `FormControl` du champ `year` dans le SearchformComponent
+- **Note:** Les validateurs contrôlent les données mais n'invalident pas le bouton de recherche (API permissive)
+
+##### SearchmovieService (`films/services/searchmovie.ts`)
+
+Service injectable pour la communication avec l'API OMDb (Open Movie Database).
+
+- **Fichiers associés:**
+  - `searchmovie.spec.ts` - Tests unitaires
+- **Dépendances:**
+  - `HttpClient` - Pour effectuer les requêtes HTTP GET
+- **Méthodes principales:**
+  - `search(action, title, year)` - Recherche un film par titre et année optionnelle
+    - `action` - Callback function exécutée avec les résultats
+    - `title` - Titre du film (paramètre obligatoire)
+    - `year` - Année du film (paramètre optionnel, défaut 0)
+- **Configuration:**
+  - API endpoint: `http://www.omdbapi.com/`
+  - Clé API: `b267f2ad`
+  - Paramètres: `apikey`, `t` (titre), `year` (optionnel), `plot=full` (résumé complet)
+- **Fonctionnement:**
+  - Construit dynamiquement l'URL avec les paramètres fournis
+  - Utilise `HttpClient.get()` avec un observable subscription
+  - Exécute le callback `action` avec les résultats de l'API
 
 #### AboutComponent (`about/about.ts`)
 
@@ -107,7 +147,7 @@ Composant pour la gestion centralisée des erreurs.
 
 ## Endpoints et Routes disponibles 🛣️
 
-**Répertoires:** 
+**Répertoires:**
 - `./src/app/app.routes.ts` - Routes client
 - `./src/app/app.routes.server.ts` - Routes serveur SSR
 
@@ -160,7 +200,12 @@ tpbinding/
 │           │   ├── films.html
 │           │   ├── films.css
 │           │   ├── films.spec.ts
-│           │   └── films-module.ts
+│           │   ├── films-module.ts
+│           │   └── searchform/
+│           │       ├── searchform.ts
+│           │       ├── searchform.html
+│           │       ├── searchform.css
+│           │       └── searchform.spec.ts
 │           ├── about/
 │           │   ├── about.ts
 │           │   ├── about.html
