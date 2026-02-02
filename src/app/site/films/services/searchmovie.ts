@@ -20,7 +20,7 @@ export class Searchmovie {
      * Attention pour ne pas avoir d'erreur avec cette APi il faut une clé exemple apikey=b267f2ad
      * Remplacer &y=${year} par ${y} pour prendre en compte l'année saisi ou non
      */
-    this.http.get(`http://www.omdbapi.com/?apikey=b267f2ad&t=${title}&${y}&plot=full`)
+    this.http.get(`http://www.omdbapi.com/?apikey=b267f2ad&t=${title}${y}&plot=full`)
       .subscribe(res => {
         action(res);
       })
